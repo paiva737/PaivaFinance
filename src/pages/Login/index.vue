@@ -62,8 +62,13 @@ async function enviarCodigo() {
   }
 }
 
-function verificarCodigo() {
-  console.log('Código informado:', codigo.value)
-  alert('Aqui futuramente vamos validar e logar o usuário.')
+async function verificarCodigo() {
+  try {
+    await axios.post('http://localhost:5001/validar-codigo', { email: email.value, codigo: codigo.value })
+    alert('Código validado com sucesso! Usuário logado.')
+  } catch (error) {
+    console.error('Erro ao validar o código:', error)
+    alert('Código inválido.')
+  }
 }
 </script>
