@@ -45,14 +45,21 @@
 
 <script setup>
 import { ref } from 'vue'
+import axios from 'axios'
 
 const email = ref('')
 const codigo = ref('')
 const codigoEnviado = ref(false)
 
-function enviarCodigo() {
-  console.log('Enviar código para:', email.value)
-  codigoEnviado.value = true
+async function enviarCodigo() {
+  try {
+    await axios.post('http://localhost:5001/enviar-codigo', { email: email.value })
+    codigoEnviado.value = true
+    alert('Código enviado! Verifique seu e-mail.')
+  } catch (error) {
+    console.error('Erro ao enviar o código:', error)
+    alert('Erro ao enviar o código.')
+  }
 }
 
 function verificarCodigo() {
