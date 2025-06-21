@@ -41,7 +41,9 @@ export default {
 
         if (response.ok) {
           localStorage.removeItem('email');
+          localStorage.setItem('token', data.token); 
           this.$router.push('/dashboard');
+
         } else {
           this.mensagem = data.error;
         }
