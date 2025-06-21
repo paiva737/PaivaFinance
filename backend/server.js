@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const { enviarCodigo } = require('./services/emailService');
+const connectDB = require('./config/database');
 
 dotenv.config();
 
@@ -30,7 +31,9 @@ app.post('/enviar-codigo', async (req, res) => {
   const codigo = Math.floor(100000 + Math.random() * 900000);
   console.log('Código gerado:', codigo);
 
-  codigosDeVerificacao[email] = codigo;
+  const CodigoVerificacao = require('./models/CodigoVerificacao');
+  await CodigoVerificacao.create({ email, codigo });
+
 
   try {
     await enviarCodigo(email, codigo);
@@ -43,22 +46,33 @@ app.post('/enviar-codigo', async (req, res) => {
 });
 
 
-app.post('/validar-codigo', (req, res) => {
+app.post('/validar-codigo', async (req, res) => {
   const { email, codigo } = req.body;
 
   if (!email || !codigo) {
     return res.status(400).json({ error: 'E-mail e código são obrigatórios.' });
   }
 
-  if (codigosDeVerificacao[email] == codigo) {
+  const CodigoVerificacao = require('./models/CodigoVerificacao');
+
+  try {
+    const registro = await CodigoVerificacao.findOne({ email, codigo });
+
+    if (!registro) {
+      console.log(`Código inválido para o e-mail: ${email}`);
+      return res.status(400).json({ error: 'Código inválido.' });
+    }
+
+    await CodigoVerificacao.deleteOne({ _id: registro._id }); // remove após validação
     console.log(`Código válido para o e-mail: ${email}`);
-    delete codigosDeVerificacao[email]; 
     return res.json({ message: 'Código validado com sucesso.' });
-  } else {
-    console.log(`Código inválido para o e-mail: ${email}`);
-    return res.status(400).json({ error: 'Código inválido.' });
+  } catch (error) {
+    console.error('Erro ao validar o código:', error);
+    return res.status(500).json({ error: 'Erro ao validar o código.' });
   }
 });
+
+connectDB();
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
