@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import '../VerificarCodigo/verificarCodigo.css'
+
 export default {
   data() {
     return {
@@ -41,9 +43,9 @@ export default {
 
         if (response.ok) {
           localStorage.removeItem('email');
-          localStorage.setItem('token', data.token); 
+          localStorage.setItem('usuario', JSON.stringify(data.usuario)); 
+          localStorage.setItem('token', data.token);
           this.$router.push('/dashboard');
-
         } else {
           this.mensagem = data.error;
         }
@@ -53,6 +55,4 @@ export default {
     }
   }
 };
-import '../VerificarCodigo/verificarCodigo.css'
 </script>
-

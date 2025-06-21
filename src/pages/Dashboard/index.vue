@@ -1,22 +1,40 @@
 <template>
   <div class="dashboard-container">
-    <h1>Bem-vindo, {{ nome }}!</h1>
-    <button @click="logout">Sair</button>
- 
+    <header class="dashboard-header">
+      <h1>Bem-vindo, {{ usuario?.nome || 'Usuário' }} 👋</h1>
+  <button
+  class="logout-button"
+  @click="logout"
+  style="background-color: red; color: white"
+>
+  Sair
+</button>
+
+
+
+    </header>
+
+    <main class="dashboard-content">
+      <div class="card">
+        <h2>🏦 Painel Financeiro</h2>
+        <p>Em breve você verá aqui seus dados financeiros organizados.</p>
+      </div>
+    </main>
   </div>
 </template>
 
 <script>
+import '../Dashboard/dashboard.css'
 export default {
   data() {
     return {
-      nome: ''
-    }
+      usuario: null
+    };
   },
   mounted() {
-    const usuario = JSON.parse(localStorage.getItem('usuario'));
-    if (usuario && usuario.nome) {
-      this.nome = usuario.nome;
+    const usuarioSalvo = localStorage.getItem('usuario');
+    if (usuarioSalvo) {
+      this.usuario = JSON.parse(usuarioSalvo);
     }
   },
   methods: {
@@ -26,6 +44,6 @@ export default {
       this.$router.push('/login');
     }
   }
-}
-import '../Dashboard/dashboard.css'
+};
+
 </script>

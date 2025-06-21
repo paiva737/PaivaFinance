@@ -1,29 +1,29 @@
-const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.resend.com',
-  port: 587,
-  secure: false, 
-  auth: {
-    user: 'resend',
-    pass: process.env.RESEND_API_KEY
-  }
-});
-
-console.log('Transporter configurado com Resend');
-
 async function enviarCodigo(email, codigo) {
-  const mailOptions = {
-    from: 'Finance App <onboarding@resend.dev>', 
-    to: email,
-    subject: 'Seu código de verificação',
-    text: `Seu código de verificação é: ${codigo}`
-  };
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      from: 'Finance App <onboarding@resend.dev>',
+      to: email,
+      subject: 'Seu código de verificação',
+      text: `Seu código de verificação é: ${codigo}`
+    })
+  });
 
-  await transporter.sendMail(mailOptions);
+  if (!response.ok) {
+    const error = await response.text();
+    console.error('Erro ao tentar enviar email:', error);
+    throw new Error('Erro ao enviar e-mail via Resend API');
+  }
+
+  console.log('✅ Código enviado com sucesso para:', email);
 }
 
 module.exports = { enviarCodigo };

@@ -46,7 +46,7 @@ export default {
         const data = await response.json();
 
         if (response.ok) {
-          localStorage.setItem('email', this.email)
+          localStorage.setItem('email', this.email);
           this.$router.push('/verificar-codigo');
         } else {
           this.mensagem = data.error;
@@ -56,8 +56,9 @@ export default {
       }
     },
     irParaCadastro() {
-      this.$router.push('/cadastro');
+      this.$router.push('/register');
     }
   }
 };
 </script>
+

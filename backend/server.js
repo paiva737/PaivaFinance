@@ -5,6 +5,9 @@ const { enviarCodigo } = require('./services/emailService');
 const connectDB = require('./config/database');
 const User = require('./models/User');
 const CodigoVerificacao = require('./models/CodigoVerificacao');
+const codigoRoutes = require('./routes/codigoRoutes');
+const authRoutes = require('./routes/authRoutes');
+
 
 dotenv.config();
 
@@ -13,6 +16,8 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+app.use(codigoRoutes);
+app.use('/auth', authRoutes); 
 
 app.get('/', (req, res) => {
   res.send('API rodando 🚀');

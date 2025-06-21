@@ -1,4 +1,4 @@
-// models/User.js
+
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -11,10 +11,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  senha: {
-    type: String,
-    required: true
-  },
+ 
   criadoEm: {
     type: Date,
     default: Date.now
