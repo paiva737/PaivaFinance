@@ -1,74 +1,61 @@
 <template>
-  <div class="flex items-center justify-center h-screen bg-gray-100">
-    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-      <h1 class="text-2xl font-bold mb-6 text-center">Login - Finanças</h1>
+  <div class="login-container">
+    <div class="login-box">
+      <h2 class="login-title">🔐 Login - Finanças</h2>
+      <p class="login-subtitle">Informe seu e-mail para receber o código de acesso.</p>
 
-      <form @submit.prevent="enviarCodigo">
-        <div class="mb-4">
-          <label class="block mb-2 font-semibold">E-mail</label>
-          <input
-            type="email"
-            v-model="email"
-            required
-            class="w-full p-2 border border-gray-300 rounded"
-            placeholder="Digite seu e-mail"
-          />
-        </div>
-
-        <button
-          type="submit"
-          class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
-        >
-          Enviar Código
-        </button>
-      </form>
-
-      <div v-if="codigoEnviado" class="mt-6">
-        <label class="block mb-2 font-semibold">Código de Verificação</label>
+      <label for="email">E-mail</label>
+      <div class="input-wrapper">
+        <span class="icon">📧</span>
         <input
-          type="text"
-          v-model="codigo"
-          class="w-full p-2 border border-gray-300 rounded"
-          placeholder="Digite o código"
+          v-model="email"
+          type="email"
+          id="email"
+          placeholder="Digite seu e-mail"
+          required
         />
-
-        <button
-          class="w-full bg-green-500 text-white py-2 rounded mt-4 hover:bg-green-600 transition"
-          @click="verificarCodigo"
-        >
-          Verificar Código
-        </button>
       </div>
+
+      <button @click="enviarCodigo">Enviar Código</button>
+      <button class="create-account" @click="irParaCadastro">Cadastrar Email</button>
+
+      <p v-if="mensagem" class="mensagem">{{ mensagem }}</p>
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import axios from 'axios'
+<script>
+export default {
+  data() {
+    return {
+      email: '',
+      mensagem: ''
+    };
+  },
+  methods: {
+    async enviarCodigo() {
+      try {
+        const response = await fetch('http://localhost:5001/enviar-codigo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: this.email })
+        });
 
-const email = ref('')
-const codigo = ref('')
-const codigoEnviado = ref(false)
+        const data = await response.json();
 
-async function enviarCodigo() {
-  try {
-    await axios.post('http://localhost:5001/enviar-codigo', { email: email.value })
-    codigoEnviado.value = true
-    alert('Código enviado! Verifique seu e-mail.')
-  } catch (error) {
-    console.error('Erro ao enviar o código:', error)
-    alert('Erro ao enviar o código.')
+        if (response.ok) {
+          this.$router.push('/verificar-codigo'); 
+        } else {
+          this.mensagem = data.error;
+        }
+      } catch (error) {
+        this.mensagem = 'Erro ao enviar o código.';
+      }
+    },
+    irParaCadastro() {
+      this.$router.push('/cadastro');
+    }
   }
-}
-
-async function verificarCodigo() {
-  try {
-    await axios.post('http://localhost:5001/validar-codigo', { email: email.value, codigo: codigo.value })
-    alert('Código validado com sucesso! Usuário logado.')
-  } catch (error) {
-    console.error('Erro ao validar o código:', error)
-    alert('Código inválido.')
-  }
-}
+};
+import '../Login/login.css'
 </script>

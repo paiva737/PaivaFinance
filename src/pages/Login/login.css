@@ -1,0 +1,104 @@
+body {
+  background-image: url("/src/assets/background-paivafinance.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+}
+
+.login-box {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-title {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+}
+
+.login-subtitle {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  color: #666;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.3rem;
+  
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  background: #f9f9f9;
+  
+}
+
+.input-wrapper .icon {
+  margin-right: 0.5rem;
+}
+
+input {
+  border: none;
+  outline: none;
+  flex: 1;
+  background: transparent;
+}
+
+button {
+  width: 100%;
+  height: 50px;
+  padding: 0.6rem;
+  border: 1px solid #3b82f6;
+  border-radius: 8px;
+  background-color: #3b82f6;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.2s;
+  
+}
+
+button:hover {
+ background-color: #99ccff;
+}
+
+.create-account {
+  
+  color: #000;
+  border: 1px solid #3b82f6;
+  margin-top: 10px;
+}
+
+.create-account:hover {
+  background-color: #99ccff;
+}
+
+.mensagem {
+  color: #e74c3c;
+  text-align: center;
+  margin-top: 1rem;
+}
+
