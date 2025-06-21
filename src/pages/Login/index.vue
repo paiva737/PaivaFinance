@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="login-box">
-      <h2 class="login-title">🔐 Login - Finanças</h2>
+      <h2 class="login-title">🔐 LOGIN</h2>
       <p class="login-subtitle">Informe seu e-mail para receber o código de acesso.</p>
 
       <label for="email">E-mail</label>
