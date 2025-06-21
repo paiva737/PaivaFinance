@@ -3,17 +3,18 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const { enviarCodigo } = require('./services/emailService');
 const connectDB = require('./config/database');
+const authRoutes = require('./routes/authRoutes');
+
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-
-const codigosDeVerificacao = {};
-
 app.use(cors());
 app.use(express.json());
+app.use('/auth', authRoutes);
+
 
 app.get('/', (req, res) => {
   res.send('API rodando 🚀');
@@ -32,10 +33,15 @@ app.post('/enviar-codigo', async (req, res) => {
   console.log('Código gerado:', codigo);
 
   const CodigoVerificacao = require('./models/CodigoVerificacao');
-  await CodigoVerificacao.create({ email, codigo });
-
 
   try {
+    // Remove códigos antigos do mesmo e-mail antes de criar um novo
+    await CodigoVerificacao.deleteMany({ email });
+
+    // Cria novo código
+    await CodigoVerificacao.create({ email, codigo });
+
+    // Envia o código
     await enviarCodigo(email, codigo);
     console.log('E-mail enviado com sucesso');
     res.json({ message: 'Código enviado com sucesso.' });
@@ -44,7 +50,6 @@ app.post('/enviar-codigo', async (req, res) => {
     res.status(500).json({ error: 'Erro ao enviar o código.' });
   }
 });
-
 
 app.post('/validar-codigo', async (req, res) => {
   const { email, codigo } = req.body;
@@ -59,16 +64,16 @@ app.post('/validar-codigo', async (req, res) => {
     const registro = await CodigoVerificacao.findOne({ email, codigo });
 
     if (!registro) {
-      console.log(`Código inválido para o e-mail: ${email}`);
-      return res.status(400).json({ error: 'Código inválido.' });
+      console.log(`Código inválido ou expirado para o e-mail: ${email}`);
+      return res.status(400).json({ error: 'Código inválido ou expirado.' });
     }
 
-    await CodigoVerificacao.deleteOne({ _id: registro._id }); // remove após validação
+    await CodigoVerificacao.deleteOne({ _id: registro._id });
     console.log(`Código válido para o e-mail: ${email}`);
-    return res.json({ message: 'Código validado com sucesso.' });
+    res.json({ message: 'Código validado com sucesso.' });
   } catch (error) {
     console.error('Erro ao validar o código:', error);
-    return res.status(500).json({ error: 'Erro ao validar o código.' });
+    res.status(500).json({ error: 'Erro ao validar o código.' });
   }
 });
 
