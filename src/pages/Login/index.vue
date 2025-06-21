@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import '../Login/login.css'
+
 export default {
   data() {
     return {
@@ -44,7 +46,8 @@ export default {
         const data = await response.json();
 
         if (response.ok) {
-          this.$router.push('/verificar-codigo'); 
+          localStorage.setItem('email', this.email)
+          this.$router.push('/verificar-codigo');
         } else {
           this.mensagem = data.error;
         }
@@ -57,5 +60,4 @@ export default {
     }
   }
 };
-import '../Login/login.css'
 </script>
