@@ -3,8 +3,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const { enviarCodigo } = require('./services/emailService');
 const connectDB = require('./config/database');
-const authRoutes = require('./routes/authRoutes');
-
+const User = require('./models/User');
+const CodigoVerificacao = require('./models/CodigoVerificacao');
 
 dotenv.config();
 
@@ -13,12 +13,11 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
-app.use('/auth', authRoutes);
-
 
 app.get('/', (req, res) => {
   res.send('API rodando 🚀');
 });
+
 
 app.post('/enviar-codigo', async (req, res) => {
   const { email } = req.body;
@@ -29,19 +28,17 @@ app.post('/enviar-codigo', async (req, res) => {
     return res.status(400).json({ error: 'E-mail é obrigatório.' });
   }
 
+  const usuario = await User.findOne({ email });
+  if (!usuario) {
+    return res.status(400).json({ error: 'E-mail não encontrado. Faça seu cadastro.' });
+  }
+
   const codigo = Math.floor(100000 + Math.random() * 900000);
   console.log('Código gerado:', codigo);
 
-  const CodigoVerificacao = require('./models/CodigoVerificacao');
+  await CodigoVerificacao.create({ email, codigo });
 
   try {
-    // Remove códigos antigos do mesmo e-mail antes de criar um novo
-    await CodigoVerificacao.deleteMany({ email });
-
-    // Cria novo código
-    await CodigoVerificacao.create({ email, codigo });
-
-    // Envia o código
     await enviarCodigo(email, codigo);
     console.log('E-mail enviado com sucesso');
     res.json({ message: 'Código enviado com sucesso.' });
@@ -51,6 +48,7 @@ app.post('/enviar-codigo', async (req, res) => {
   }
 });
 
+
 app.post('/validar-codigo', async (req, res) => {
   const { email, codigo } = req.body;
 
@@ -58,14 +56,12 @@ app.post('/validar-codigo', async (req, res) => {
     return res.status(400).json({ error: 'E-mail e código são obrigatórios.' });
   }
 
-  const CodigoVerificacao = require('./models/CodigoVerificacao');
-
   try {
     const registro = await CodigoVerificacao.findOne({ email, codigo });
 
     if (!registro) {
-      console.log(`Código inválido ou expirado para o e-mail: ${email}`);
-      return res.status(400).json({ error: 'Código inválido ou expirado.' });
+      console.log(`Código inválido para o e-mail: ${email}`);
+      return res.status(400).json({ error: 'Código inválido.' });
     }
 
     await CodigoVerificacao.deleteOne({ _id: registro._id });
@@ -78,7 +74,6 @@ app.post('/validar-codigo', async (req, res) => {
 });
 
 connectDB();
-
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
