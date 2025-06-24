@@ -1,0 +1,66 @@
+header h2{
+  font-weight: 900;
+  
+}
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 1000;
+}
+.modal-content {
+  background: #fff;
+  border-radius: 8px;
+  width: 350px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  position: relative;
+}
+.modal-content header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1rem;
+}
+.close-btn {
+  background: transparent;
+  border: 1px solid;
+  font-size: 1.4rem;
+  cursor: pointer;
+  margin-left: 170px;
+}
+.close-btn:hover {
+ background-color: red;
+}
+form label {
+  font-weight: bold;
+  margin-top: 0.75rem;
+  display: block;
+}
+form input,
+form select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.tipo-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+.submit-btn {
+  margin-top: 1.5rem;
+  width: 100%;
+  padding: 0.6rem;
+  background: #1e3a8a;
+  color: #000;
+  border: solid 1px green;;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.submit-btn:hover {
+  background: green;
+}
+

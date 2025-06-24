@@ -1,0 +1,74 @@
+<template>
+  <div class="modal-overlay" @click.self="$emit('close')">
+    <div class="modal-content">
+      <header>
+        <h2>Adicionar Transação</h2>
+        <button class="close-btn" @click="$emit('close')">×</button>
+      </header>
+      <form @submit.prevent="handleSubmit">
+        <label>Descrição</label>
+        <input v-model="descricao" type="text" required />
+
+        <label>Valor (R$)</label>
+        <input v-model.number="valor" type="number" step="0.01" required />
+
+        <label>Categoria</label>
+        <select v-model="categoria" required>
+          <option disabled value="">Selecione...</option>
+          <option>Alimentação</option>
+          <option>Transporte</option>
+          <option>Lazer</option>
+          <option>Saúde</option>
+          <option>Outros</option>
+        </select>
+
+        <label>Tipo</label>
+        <div class="tipo-group">
+          <label><input type="radio" value="entrada" v-model="tipo" /> Entrada</label>
+          <label><input type="radio" value="saida" v-model="tipo" /> Saída</label>
+        </div>
+
+        <button type="submit" class="submit-btn">Adicionar</button>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script>
+import { salvarTransacao } from '../../services/transacoesService';
+import '../ButtonTransação/ModalNovaTransacao.css';
+
+export default {
+  data() {
+    return {
+      descricao: '',
+      valor: null,
+      categoria: '',
+      tipo: 'entrada'
+    };
+  },
+  methods: {
+    handleSubmit() {
+      const novaTransacao = {
+        id: Date.now(),
+        descricao: this.descricao,
+        valor: this.valor,
+        categoria: this.categoria,
+        tipo: this.tipo,
+        data: new Date().toISOString()
+      };
+
+      salvarTransacao(novaTransacao);
+
+    
+      this.descricao = '';
+      this.valor = null;
+      this.categoria = '';
+      this.tipo = 'entrada';
+
+    
+      this.$emit('close');
+    }
+  }
+};
+</script>

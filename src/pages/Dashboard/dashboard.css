@@ -1,8 +1,9 @@
+
 .dashboard-container {
   min-height: 100vh;
+  background: #f4f6f8;
   display: flex;
   flex-direction: column;
-  background: #f4f6f8;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -13,18 +14,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.dashboard-header h1 {
-  font-size: 1.3rem;
-  margin: 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  
+  margin-bottom: 0;
 }
 
 
-
+.dashboard-header + .dashboard-content {
+  margin-top: 20px;
+}
 .logout-button {
-  background-color: transparent;
+  background-color: red;
   color: white;
   border: 2px solid white;
   border-radius: 8px;
@@ -42,32 +42,95 @@
   border-color: #1e3a8a !important;
 }
 
-
-
 .dashboard-content {
   flex: 1;
-  padding: 2rem;
+  padding: 0 2rem 2rem;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  gap: 40px;
 }
 
-.card {
+
+.resumo {
+  display: flex;
+  gap: 20px;
+  
+  flex: none;
+}
+
+
+.resumo .card {
   background: white;
+  padding: 30px 20px;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  padding: 2rem 3rem;
-  max-width: 500px;
+  min-width: 220px;
   text-align: center;
 }
 
-.card h2 {
-  margin-bottom: 1rem;
-  color: #1e293b;
-  font-size: 1.4rem;
+
+.card_entrada {
+  border: 4px solid green;
+ width: 30vh;
+ height: 80px;
 }
 
-.card p {
-  color: #475569;
-  font-size: 1rem;
+.card_saida {
+  border: 4px solid red;
+  width: 30vh;
+  height: 80px;
 }
+
+.card_total {
+  border: 4px solid blue;
+  width: 30vh;
+  height: 80px;
+}
+
+
+.card_entrada p{
+  font-weight: 900;
+  color: green;
+}
+
+.card_total p{
+font-weight: 900;
+  color: blue;
+}
+
+.card_saida p{
+font-weight: 900;
+  color: red;
+}
+
+ .card_saida strong{
+  color: red;
+}
+
+.card_entrada strong{
+  color: green;
+}
+
+.card_total strong{
+  color: blue;
+} 
+
+.nova-transacao-btn {
+  background-color: #1e3a8a;
+  color: white;
+  font-weight: bold;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  height: 80px;
+  width: 30vh;
+  
+}
+
+.nova-transacao-btn:hover {
+  background-color: #162f6f;
+}
+
+
