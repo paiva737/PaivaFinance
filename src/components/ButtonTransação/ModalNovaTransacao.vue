@@ -1,9 +1,9 @@
 <template>
-  <div class="modal-overlay" @click.self="$emit('close')">
+  <div class="modal-overlay" @click.self="$emit('fechar')">
     <div class="modal-content">
       <header>
         <h2>Adicionar Transação</h2>
-        <button class="close-btn" @click="$emit('close')">×</button>
+        <button class="close-btn" @click="$emit('fechar')">×</button>
       </header>
       <form @submit.prevent="handleSubmit">
         <label>Descrição</label>
@@ -19,6 +19,7 @@
           <option>Transporte</option>
           <option>Lazer</option>
           <option>Saúde</option>
+          <option>Salario</option>
           <option>Outros</option>
         </select>
 
@@ -50,7 +51,6 @@ export default {
   methods: {
     handleSubmit() {
       const novaTransacao = {
-        id: Date.now(),
         descricao: this.descricao,
         valor: this.valor,
         categoria: this.categoria,
@@ -58,16 +58,14 @@ export default {
         data: new Date().toISOString()
       };
 
-      salvarTransacao(novaTransacao);
+      this.$emit('add-transaction', novaTransacao);
 
-    
       this.descricao = '';
       this.valor = null;
       this.categoria = '';
       this.tipo = 'entrada';
 
-    
-      this.$emit('close');
+      this.$emit('fechar');
     }
   }
 };

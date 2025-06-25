@@ -134,3 +134,14 @@ font-weight: 900;
 }
 
 
+.coluna-esquerda {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.resumo {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}

@@ -6,38 +6,52 @@
     </header>
 
     <main class="dashboard-content">
-      <section class="resumo">
-        <div class="card_entrada">
-          <p>Entradas</p>
-          <strong>R$ 0,00</strong>
+      <section class="coluna-esquerda">
+        <div class="resumo">
+          <div class="card_entrada">
+            <p>Entradas</p>
+            <strong>R$ {{ resumo.entradas.toFixed(2) }}</strong>
+          </div>
+          <div class="card_saida">
+            <p>Saídas</p>
+            <strong>R$ {{ resumo.saidas.toFixed(2) }}</strong>
+          </div>
+          <div class="card_total">
+            <p>Total</p>
+            <strong>R$ {{ resumo.total.toFixed(2) }}</strong>
+          </div>
         </div>
-        <div class="card_saida">
-          <p>Saídas</p>
-          <strong>R$ 0,00</strong>
-        </div>
-        <div class="card_total">
-          <p>Total</p>
-          <strong>R$ 0,00</strong>
-        </div>
+
+        <ListaTransacoes
+          :transacoes="transacoes"
+          @remover="removerTransacao"
+        />
       </section>
-      
+
       <div class="acoes">
-        <button class="nova-transacao-btn" @click="abrirModal">+ Nova Transação</button>
+        <button class="nova-transacao-btn" @click="abrirModal">
+          + Nova Transação
+        </button>
       </div>
 
-      <!-- Aqui está a modificação solicitada -->
-      <ListaTransacoes :transacoes="transacoes" />
-
-      <ModalNovaTransacao v-if="mostrarModal" @fechar="mostrarModal = false" />
+      <ModalNovaTransacao
+        v-if="mostrarModal"
+        @fechar="mostrarModal = false"
+        @add-transaction="adicionarTransacao"
+      />
     </main>
   </div>
 </template>
+
 
 <script>
 import ListaTransacoes from '../../components/Transacoes/ListaTransacoes.vue';
 import ModalNovaTransacao from '../../components/ButtonTransação/ModalNovaTransacao.vue';
 import '../Dashboard/dashboard.css';
-import { buscarTransacoes } from '../../Services/transacoesService.js';
+import {
+  buscarTransacoes,
+  salvarTransacao
+} from '../../Services/transacoesService.js';
 
 export default {
   components: {
@@ -48,7 +62,12 @@ export default {
     return {
       usuario: null,
       mostrarModal: false,
-      transacoes: []
+      transacoes: [],
+      resumo: {
+        entradas: 0,
+        saidas: 0,
+        total: 0
+      }
     };
   },
   mounted() {
@@ -58,6 +77,7 @@ export default {
     }
 
     this.transacoes = buscarTransacoes();
+    this.calcularResumo();
   },
   methods: {
     logout() {
@@ -67,6 +87,32 @@ export default {
     },
     abrirModal() {
       this.mostrarModal = true;
+    },
+    adicionarTransacao(novaTransacao) {
+      salvarTransacao(novaTransacao);
+      this.transacoes = buscarTransacoes();
+      this.calcularResumo();
+    },
+    removerTransacao(id) {
+      this.transacoes = this.transacoes.filter(t => t.id !== id);
+      localStorage.setItem('transacoes_usuario', JSON.stringify(this.transacoes));
+      this.calcularResumo();
+    },
+    calcularResumo() {
+      let entradas = 0;
+      let saidas = 0;
+
+      this.transacoes.forEach(transacao => {
+        if (transacao.tipo === 'entrada') {
+          entradas += transacao.valor;
+        } else if (transacao.tipo === 'saida') {
+          saidas += transacao.valor;
+        }
+      });
+
+      this.resumo.entradas = entradas;
+      this.resumo.saidas = saidas;
+      this.resumo.total = entradas - saidas;
     }
   }
 };
