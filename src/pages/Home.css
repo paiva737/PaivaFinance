@@ -1,0 +1,70 @@
+.home-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0f2c, #190045);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.home-header {
+  text-align: center;
+  max-width: 700px;
+  margin-top: 6rem;
+}
+
+.home-header h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+}
+
+.home-header p {
+  font-size: 1.2rem;
+  color: #cccccc;
+  margin-bottom: 2rem;
+}
+
+.start-button {
+  background-color: #2563eb;
+  color: white;
+  padding: 12px 30px;
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.start-button:hover {
+  background-color: #1e40af;
+}
+
+.home-benefits {
+  margin-top: 4rem;
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.benefit-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  max-width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.benefit-card h2 {
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+
+.benefit-card p {
+  color: #bbbbbb;
+  font-size: 0.95rem;
+}
