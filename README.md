@@ -19,6 +19,7 @@ Paiva Finance
   <img alt="Cartão Visita" src=".github/home.png" width="100%">
   <img alt="Cartão Visita" src=".github/login.png" width="100%">
   <img alt="Cartão Visita" src=".github/cadastro.png" width="100%">
+   <img alt="Cartão Visita" src=".github/validarCodigo.png" width="100%">
   <img alt="Cartão Visita" src=".github/dashboard.png" width="100%">
   <img alt="Cartão Visita" src=".github/offcanvas.png" width="100%">
 </p>
