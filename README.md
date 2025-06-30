@@ -16,12 +16,13 @@ Paiva Finance
 <br>
 
 <p align="center">
-  <img alt="Cartão Visita" src=".github/home.png" width="100%">
-  <img alt="Cartão Visita" src=".github/login.png" width="100%">
-  <img alt="Cartão Visita" src=".github/cadastro.png" width="100%">
-   <img alt="Cartão Visita" src=".github/validarCodigo.png" width="100%">
-  <img alt="Cartão Visita" src=".github/dashboard.png" width="100%">
-  <img alt="Cartão Visita" src=".github/offcanvas.png" width="100%">
+  <img alt="Pagina Home" src=".github/home.png" width="100%">
+  <img alt="Pagina Login" src=".github/login.png" width="100%">
+  <img alt="Pagina Cadastro" src=".github/cadastro.png" width="100%">
+   <img alt="Pagina para validação de codigo" src=".github/validarCodigo.png" width="100%">
+    <img alt="chegada do codigo email" src=".github/ChegadaCodigo.png" width="100%">
+  <img alt="Pagina Dashboard" src=".github/dashboard.png" width="100%">
+  <img alt="Offcanvas" src=".github/offcanvas.png" width="100%">
 </p>
 
 ## 🚀 Tecnologias
