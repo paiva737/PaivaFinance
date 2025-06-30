@@ -49,3 +49,38 @@ button:hover {
   margin-top: 1rem;
   color: #e74c3c;
 }
+
+@media (max-width: 768px) {
+  .register-container {
+    padding: 1rem;
+  }
+
+  .register-box {
+    max-width: 90%;
+    padding: 1.5rem;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+  }
+
+  .register-title {
+    font-size: 1.5rem;
+  }
+
+  label {
+    font-size: 0.95rem;
+    margin: 8px 0;
+  }
+
+  input {
+    height: 38px;
+    font-size: 1rem;
+  }
+
+  button {
+    font-size: 1rem;
+    height: 45px;
+  }
+
+  .mensagem {
+    font-size: 0.9rem;
+  }
+}

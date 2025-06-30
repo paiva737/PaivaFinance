@@ -16,13 +16,15 @@
           <div class="valor-data">
             <strong>
               {{ transacao.tipo === 'entrada' ? '+ R$' : '- R$' }}
-              {{ transacao.valor.toFixed(2) }}
+            {{ Number(transacao.valor || 0).toFixed(2) }}
+
             </strong>
             <small class="data">{{ formatarData(transacao.data) }}</small>
           </div>
-          <button class="remover-btn" @click="remover(transacao.id)">
+         <button class="remover-btn" @click.stop="remover(transacao.id)">
             Remover
           </button>
+
         </div>
       </li>
     </ul>

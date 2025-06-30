@@ -26,37 +26,50 @@
           :transacoes="transacoes"
           @remover="removerTransacao"
         />
+
+        <div class="acoes">
+          <button class="nova-transacao-btn" @click="abrirModal">
+            + Nova Transação
+          </button>
+        </div>
       </section>
 
-      <div class="acoes">
-        <button class="nova-transacao-btn" @click="abrirModal">
-          + Nova Transação
-        </button>
-      </div>
+      <section class="coluna-direita">
+        <GraficoPizza
+          v-if="graficoPronto"
+          :entradas="resumo.entradas"
+          :saidas="resumo.saidas"
+        />
 
-      <ModalNovaTransacao
-        v-if="mostrarModal"
-        @fechar="mostrarModal = false"
-        @add-transaction="adicionarTransacao"
-      />
+        <GraficoLinha
+          v-if="graficoPronto"
+          :transacoes="transacoes"
+        />
+      </section>
     </main>
+
+    <ModalNovaTransacao
+      v-if="mostrarModal"
+      @fechar="mostrarModal = false"
+      @add-transaction="adicionarTransacao"
+    />
   </div>
 </template>
-
 
 <script>
 import ListaTransacoes from '../../components/Transacoes/ListaTransacoes.vue';
 import ModalNovaTransacao from '../../components/ButtonTransação/ModalNovaTransacao.vue';
 import '../Dashboard/dashboard.css';
-import {
-  buscarTransacoes,
-  salvarTransacao
-} from '../../Services/transacoesService.js';
+import GraficoPizza from '../../components/Graficos/GraficoPizza/GraficoPizza.vue';
+import GraficoLinha from '../../components/Graficos/GraficoLinha/GraficoLinha.vue';
+import { buscarTransacoes, salvarTransacao } from '../../Services/transacoesService.js';
 
 export default {
   components: {
     ModalNovaTransacao,
-    ListaTransacoes
+    ListaTransacoes,
+    GraficoPizza,
+    GraficoLinha
   },
   data() {
     return {
@@ -67,7 +80,8 @@ export default {
         entradas: 0,
         saidas: 0,
         total: 0
-      }
+      },
+      graficoPronto: false
     };
   },
   mounted() {
@@ -90,7 +104,7 @@ export default {
     },
     adicionarTransacao(novaTransacao) {
       salvarTransacao(novaTransacao);
-      this.transacoes = buscarTransacoes();
+      this.transacoes = [...buscarTransacoes()];
       this.calcularResumo();
     },
     removerTransacao(id) {
@@ -113,6 +127,8 @@ export default {
       this.resumo.entradas = entradas;
       this.resumo.saidas = saidas;
       this.resumo.total = entradas - saidas;
+
+      this.graficoPronto = true;
     }
   }
 };

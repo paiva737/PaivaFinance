@@ -20,6 +20,9 @@
           <option>Lazer</option>
           <option>Saúde</option>
           <option>Salario</option>
+          <option>Investimentos</option>
+          <option>Ensino</option>
+          <option>Casa</option>
           <option>Outros</option>
         </select>
 
